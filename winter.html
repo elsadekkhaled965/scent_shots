@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Winter Collection | Scent Shots</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700&display=swap');
+    * { box-sizing: border-box; font-family: 'Montserrat', sans-serif; margin: 0; padding: 0; }
+    body { background-color: #fafafa; color: #111; padding-bottom: 50px; }
+    
+    header { background: #111; color: #fff; padding: 15px 20px; display: flex; justify-content: space-between; position: sticky; top: 0; z-index: 100; }
+    header a { color: white; text-decoration: none; font-weight: bold; }
+    .cart-btn { background: none; border: none; color: white; font-size: 16px; cursor: pointer; font-weight: 600; }
+    
+    .page-title { text-align: center; margin: 40px 0; font-size: 28px; text-transform: uppercase; }
+    
+    .container { max-width: 1200px; margin: 0 auto; padding: 0 15px; }
+    .product-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 25px; margin-bottom: 40px; }
+    
+    .card { background: #fff; padding: 20px; text-align: center; box-shadow: 0 2px 10px rgba(0,0,0,0.03); border: 1px solid #eee; }
+    .card h3 { font-size: 18px; margin-bottom: 15px; font-weight: 600; }
+    
+    select { width: 100%; padding: 12px; margin-bottom: 15px; border: 1px solid #ddd; outline: none; background: #fafafa; cursor: pointer;}
+    .add-btn { background: #111; color: white; border: none; padding: 12px; width: 100%; text-transform: uppercase; cursor: pointer; font-weight: bold; }
+    .add-btn:hover { background: #333; }
+
+    /* Cart UI */
+    #cart-section { background: #fff; border-top: 2px solid #111; padding: 40px 20px; margin-top: 50px; }
+    .cart-container { max-width: 600px; margin: 0 auto; }
+    .cart-item { display: flex; justify-content: space-between; padding: 15px 0; border-bottom: 1px solid #eee; }
+    .remove-btn { color: #ff4757; background: none; border: none; cursor: pointer; font-weight: bold; }
+    .cart-total { font-size: 22px; font-weight: 700; text-align: right; margin: 20px 0; }
+    .whatsapp-btn { background: #25D366; color: white; border: none; padding: 15px; width: 100%; font-size: 16px; font-weight: bold; text-transform: uppercase; cursor: pointer; }
+  </style>
+</head>
+<body>
+
+  <header>
+    <a href="index.html">← BACK TO HOME</a>
+    <button class="cart-btn" onclick="scrollToCart()">CART (<span id="cart-count">0</span>)</button>
+  </header>
+
+  <h2 class="page-title">❄️ Winter Collection</h2>
+
+  <div class="container">
+    <div class="product-grid">
+      
+      <!-- WINTER PRODUCT 1 -->
+      <div class="card">
+        <h3>Spicebomb Extreme</h3>
+        <select id="prod-w1">
+          <option value="3 ml|120">3 ml - EGP 120</option>
+          <option value="5 ml|180">5 ml - EGP 180</option>
+          <option value="10 ml|300">10 ml - EGP 300</option>
+          <option value="30 ml|800">30 ml - EGP 800</option>
+          <option value="50 ml|1200">50 ml - EGP 1,200</option>
+          <option value="Full Size|5200">Full Size - EGP 5,200</option>
+        </select>
+        <button class="add-btn" onclick="addToCart('Spicebomb Extreme', 'prod-w1')">Add to Cart</button>
+      </div>
+
+      <!-- WINTER PRODUCT 2 -->
+      <div class="card">
+        <h3>Tom Ford Tobacco Vanille</h3>
+        <select id="prod-w2">
+          <option value="3 ml|200">3 ml - EGP 200</option>
+          <option value="5 ml|320">5 ml - EGP 320</option>
+          <option value="10 ml|600">10 ml - EGP 600</option>
+          <option value="30 ml|1700">30 ml - EGP 1,700</option>
+          <option value="Full Size|12500">Full Size - EGP 12,500</option>
+        </select>
+        <button class="add-btn" onclick="addToCart('Tom Ford Tobacco Vanille', 'prod-w2')">Add to Cart</button>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- CART SECTION -->
+  <section id="cart-section">
+    <div class="cart-container">
+      <h2>Your Bag</h2>
+      <div id="cart-items"></div>
+      <div class="cart-total" id="cart-total">Total: EGP 0</div>
+      <button class="whatsapp-btn" onclick="checkoutWhatsApp()">Checkout via WhatsApp</button>
+    </div>
+  </section>
+
+  <script>
+    // Pulls the cart from localStorage so it matches the Summer page
+    let cart = JSON.parse(localStorage.getItem('scentCart')) || [];
+    
+    window.onload = updateCartUI;
+
+    function saveCart() {
+      localStorage.setItem('scentCart', JSON.stringify(cart));
+      updateCartUI();
+    }
+
+    function addToCart(perfumeName, selectId) {
+      const select = document.getElementById(selectId);
+      const [size, price] = select.value.split('|');
+      
+      cart.push({ name: `${perfumeName} - ${size}`, price: parseInt(price) });
+      saveCart();
+      alert(`Added ${perfumeName} (${size}) to your bag!`);
+    }
+
+    function updateCartUI() {
+      const container = document.getElementById('cart-items');
+      document.getElementById('cart-count').innerText = cart.length;
+      
+      if (cart.length === 0) {
+        container.innerHTML = '<p>Your bag is empty.</p>';
+        document.getElementById('cart-total').innerText = 'Total: EGP 0';
+        return;
+      }
+
+      container.innerHTML = '';
+      let total = 0;
+
+      cart.forEach((item, index) => {
+        container.innerHTML += `
+          <div class="cart-item">
+            <div>${item.name}</div>
+            <div>
+              EGP ${item.price.toLocaleString()} 
+              <button class="remove-btn" onclick="removeItem(${index})">Remove</button>
+            </div>
+          </div>
+        `;
+        total += item.price;
+      });
+
+      document.getElementById('cart-total').innerText = `Total: EGP ${total.toLocaleString()}`;
+    }
+
+    function removeItem(index) {
+      cart.splice(index, 1);
+      saveCart();
+    }
+
+    function scrollToCart() {
+      document.getElementById('cart-section').scrollIntoView({ behavior: 'smooth' });
+    }
+
+    function checkoutWhatsApp() {
+      if (cart.length === 0) return alert("Your bag is empty!");
+
+      const phoneNumber = "+201112741663"; // REPLACE WITH YOUR WHATSAPP NUMBER
+      let msg = "Hello Scent Shots! 🌬️ I would like to order:\n\n";
+      let total = 0;
+
+      cart.forEach(item => {
+        msg += `▪️ ${item.name} (EGP ${item.price})\n`;
+        total += item.price;
+      });
+
+      msg += `\n*Total:* EGP ${total.toLocaleString()}\n\n`;
+      
+      // Clear cart after checkout
+      localStorage.removeItem('scentCart');
+      cart = [];
+      updateCartUI();
+
+      window.open(`https://wa.me/${phoneNumber}?text=${encodeURIComponent(msg)}`, '_blank');
+    }
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Scent Shots | Home</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700&display=swap');
+    * { box-sizing: border-box; font-family: 'Montserrat', sans-serif; margin: 0; padding: 0; }
+    body { background-color: #fafafa; color: #111; }
+    
+    header { background: #111; color: #fff; padding: 20px; text-align: center; letter-spacing: 2px; }
+    
+    .hero { text-align: center; padding: 40px 20px; }
+    .hero h2 { font-size: 28px; text-transform: uppercase; margin-bottom: 10px; }
+    
+    /* Side-by-Side Grid Layout */
+    .widget-container { 
+      display: grid; 
+      grid-template-columns: 1fr 1fr; /* Two columns equal width */
+      gap: 20px; 
+      max-width: 900px; 
+      margin: 0 auto; 
+      padding: 0 20px 50px; 
+    }
+    
+    /* Widget Styling */
+    .category-widget { 
+      text-decoration: none; 
+      color: inherit; 
+      display: block; 
+      background: #fff;
+      padding: 15px;
+      transition: transform 0.3s;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+    }
+    .category-widget:hover { transform: translateY(-5px); }
+    
+    .category-widget img { 
+      width: 100%; 
+      height: 350px; 
+      object-fit: cover; 
+      margin-bottom: 15px; 
+    }
+    
+    .category-widget h3 { 
+      text-align: center; 
+      font-size: 22px; 
+      text-transform: uppercase; 
+      letter-spacing: 1px; 
+    }
+
+    /* Mobile view: stack them if the screen is very small */
+    @media (max-width: 600px) {
+      .widget-container { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>SCENT SHOTS</h1>
+  </header>
+
+  <section class="hero">
+    <h2>Choose Your Season</h2>
+    <p>Select a collection to view available decants and full bottles.</p>
+  </section>
+
+  <div class="widget-container">
+    
+    <!-- SUMMER WIDGET -->
+    <a href="summer.html" class="category-widget">
+      <!-- Replace src with your summer aesthetic photo -->
+      <img src="https://images.unsplash.com/photo-1592945403244-b3fbafd7f539?q=80&w=600" alt="Summer Fragrances">
+      <h3>☀️ Summer Collection</h3>
+    </a>
+
+    <!-- WINTER WIDGET -->
+    <a href="winter.html" class="category-widget">
+      <!-- Replace src with your winter aesthetic photo -->
+      <img src="https://images.unsplash.com/photo-1615634260167-c8cdede054de?q=80&w=600" alt="Winter Fragrances">
+      <h3>❄️ Winter Collection</h3>
+    </a>
+
+  </div>
+
+</body>
+</html>
