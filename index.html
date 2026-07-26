@@ -14,12 +14,12 @@
     .hero { text-align: center; padding: 40px 20px; }
     .hero h2 { font-size: 28px; text-transform: uppercase; margin-bottom: 10px; }
     
-    /* Side-by-Side Grid Layout */
+    /* Three-Column Grid Layout */
     .widget-container { 
       display: grid; 
-      grid-template-columns: 1fr 1fr; /* Two columns equal width */
+      grid-template-columns: 1fr 1fr 1fr; /* Three columns equal width */
       gap: 20px; 
-      max-width: 900px; 
+      max-width: 1100px; /* Increased slightly to fit 3 widgets comfortably */
       margin: 0 auto; 
       padding: 0 20px 50px; 
     }
@@ -51,7 +51,7 @@
     }
 
     /* Mobile view: stack them if the screen is very small */
-    @media (max-width: 600px) {
+    @media (max-width: 768px) {
       .widget-container { grid-template-columns: 1fr; }
     }
   </style>
@@ -63,8 +63,8 @@
   </header>
 
   <section class="hero">
-    <h2>Choose Your Season</h2>
-    <p>Select a collection to view available decants and full bottles.</p>
+    <h2>Choose Your Collection</h2>
+    <p>Select a category to view available decants and full bottles.</p>
   </section>
 
   <div class="widget-container">
@@ -81,6 +81,13 @@
       <!-- Replace src with your winter aesthetic photo -->
       <img src="https://images.unsplash.com/photo-1615634260167-c8cdede054de?q=80&w=600" alt="Winter Fragrances">
       <h3>❄️ Winter Collection</h3>
+    </a>
+
+    <!-- FULL SIZE WIDGET -->
+    <a href="full-size.html" class="category-widget">
+      <!-- Replace src with your full size aesthetic photo -->
+      <img src="https://images.unsplash.com/photo-1594035910387-fea47794261f?q=80&w=600" alt="Full Size Bottles">
+      <h3>🍾 Full-Size Bottles</h3>
     </a>
 
   </div>
