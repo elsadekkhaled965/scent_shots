@@ -14,12 +14,12 @@
     .hero { text-align: center; padding: 40px 20px; }
     .hero h2 { font-size: 28px; text-transform: uppercase; margin-bottom: 10px; }
     
-    /* Three-Column Grid Layout */
+    /* Four-Column Responsive Grid Layout */
     .widget-container { 
       display: grid; 
-      grid-template-columns: 1fr 1fr 1fr; /* Three columns equal width */
+      grid-template-columns: repeat(4, 1fr); /* Four columns for desktop */
       gap: 20px; 
-      max-width: 1100px; /* Increased slightly to fit 3 widgets comfortably */
+      max-width: 1200px; /* Increased to fit 4 widgets comfortably */
       margin: 0 auto; 
       padding: 0 20px 50px; 
     }
@@ -50,7 +50,12 @@
       letter-spacing: 1px; 
     }
 
-    /* Mobile view: stack them if the screen is very small */
+    /* Tablet view: 2x2 grid */
+    @media (max-width: 1024px) {
+      .widget-container { grid-template-columns: 1fr 1fr; }
+    }
+
+    /* Mobile view: stack them into 1 column */
     @media (max-width: 768px) {
       .widget-container { grid-template-columns: 1fr; }
     }
@@ -88,6 +93,13 @@
       <!-- Replace src with your full size aesthetic photo -->
       <img src="https://images.unsplash.com/photo-1594035910387-fea47794261f?q=80&w=600" alt="Full Size Bottles">
       <h3>🍾 Full-Size Bottles</h3>
+    </a>
+
+    <!-- DESIGNER WIDGET -->
+    <a href="designer.html" class="category-widget">
+      <!-- Replace src with your designer aesthetic photo -->
+      <img src="https://images.unsplash.com/photo-1588405748880-12d1d2a59f75?q=80&w=600" alt="Designer Perfumes">
+      <h3>✨ Designer Perfumes</h3>
     </a>
 
   </div>
