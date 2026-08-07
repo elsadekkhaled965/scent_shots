@@ -207,8 +207,84 @@
 
 
   </div>
+<script>
+    // 1. Create an empty directory that the script will fill automatically
+    let allProducts = [];
 
+    // 2. Tell the script which pages to scan in the background
+    const pagesToScan = [
+      { url: 'summer.html', category: 'Summer' },
+      { url: 'winter.html', category: 'Winter' },
+      { url: 'designer.html', category: 'Designer' },
+      { url: 'full-size.html', category: 'Full Size' }
+    ];
 
+    // 3. The scanner function
+    async function buildSearchDirectory() {
+      for (let page of pagesToScan) {
+        try {
+          // Silently fetch the HTML of the other pages
+          let response = await fetch(page.url);
+          let htmlString = await response.text();
+          
+          // Turn that text into a hidden webpage the code can read
+          let parser = new DOMParser();
+          let hiddenDoc = parser.parseFromString(htmlString, 'text/html');
+          
+          // Find every product card on that page
+          let cards = hiddenDoc.querySelectorAll('.card');
+          
+          // Extract the name from the <h3> tag and add it to our directory
+          cards.forEach(card => {
+            let titleElement = card.querySelector('h3');
+            if (titleElement) {
+              allProducts.push({
+                name: titleElement.innerText.trim(),
+                category: page.category,
+                url: page.url
+              });
+            }
+          });
+        } catch (error) {
+          console.error("Could not load page for search: ", page.url);
+        }
+      }
+    }
+
+    // 4. Run the scanner immediately when the homepage loads!
+    window.onload = buildSearchDirectory;
+
+    // 5. The actual search function (Same as before, but uses the auto-generated list)
+    function searchAllProducts() {
+      const input = document.getElementById('globalSearch').value.toLowerCase();
+      const resultsDiv = document.getElementById('searchResults');
+      
+      resultsDiv.innerHTML = ''; 
+
+      if (input.length === 0) {
+        resultsDiv.style.display = 'none';
+        return;
+      }
+
+      // Filter our automatically built list
+      const matches = allProducts.filter(product => product.name.toLowerCase().includes(input));
+
+      if (matches.length > 0) {
+        resultsDiv.style.display = 'block';
+        matches.forEach(match => {
+          resultsDiv.innerHTML += `
+            <a href="${match.url}">
+              ${match.name} 
+              <span class="search-category-tag">${match.category}</span>
+            </a>
+          `;
+        });
+      } else {
+        resultsDiv.style.display = 'block';
+        resultsDiv.innerHTML = '<div style="padding: 15px 20px; color: #777;">No perfumes found.</div>';
+      }
+    }
+  </script>
 
 </body>
 
